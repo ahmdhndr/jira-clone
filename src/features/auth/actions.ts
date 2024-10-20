@@ -16,7 +16,6 @@ export const getLoggedInUser = async () => {
 
     client.setSession(session.value);
     const account = new Account(client);
-    console.log('ACCOUNT\n', await account.get());
 
     return await account.get();
   } catch {

@@ -5,13 +5,7 @@ import { redirect } from 'next/navigation';
 export default async function Home() {
   const user = await getLoggedInUser();
 
-  console.log(user);
-
   if (!user) redirect('/sign-in');
 
-  return (
-    <div>
-      <UserButton />
-    </div>
-  );
+  return <div>This is a homepage.</div>;
 }
