@@ -1,20 +1,17 @@
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Select } from '@/components/ui/select';
+import { getLoggedInUser } from '@/features/auth/actions';
+import { UserButton } from '@/features/auth/components/user-button';
+import { redirect } from 'next/navigation';
 
-export default function Home() {
+export default async function Home() {
+  const user = await getLoggedInUser();
+
+  console.log(user);
+
+  if (!user) redirect('/sign-in');
+
   return (
-    <div className='flex gap-4'>
-      <Input />
-      <Select>
-        <option>Test</option>
-      </Select>
-      <Button variant='primary' size='xs' disabled>
-        Primary123
-      </Button>
-      <Button variant='secondary' size='xs'>
-        Secondary
-      </Button>
+    <div>
+      <UserButton />
     </div>
   );
 }

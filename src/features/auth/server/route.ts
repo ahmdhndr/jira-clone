@@ -5,8 +5,13 @@ import { deleteCookie, setCookie } from 'hono/cookie';
 import { ID } from 'node-appwrite';
 import { AUTH_COOKIE } from '../constants';
 import { loginSchema, registerSchema } from '../schemas';
+import { sessionMiddleware } from '@/lib/session-middleware';
 
 const app = new Hono()
+  .get('/current-user', sessionMiddleware, (c) => {
+    const user = c.get('user');
+    return c.json({ status: 'success', message: 'OK', data: user });
+  })
   .post('/login', zValidator('json', loginSchema), async (c) => {
     const { email, password } = c.req.valid('json');
 
@@ -34,6 +39,7 @@ const app = new Hono()
     const { account } = await createAdminClient();
 
     await account.create(ID.unique(), email, password, name);
+
     const session = await account.createEmailPasswordSession(email, password);
 
     setCookie(c, AUTH_COOKIE, session.secret, {
@@ -50,8 +56,11 @@ const app = new Hono()
       data: null,
     });
   })
-  .post('/logout', (c) => {
+  .post('/logout', sessionMiddleware, async (c) => {
+    const account = c.get('account');
+
     deleteCookie(c, AUTH_COOKIE);
+    await account.deleteSession('current');
 
     return c.json({
       status: 'success',

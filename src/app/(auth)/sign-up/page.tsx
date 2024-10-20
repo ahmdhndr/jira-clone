@@ -1,8 +1,12 @@
-'use client';
-
+import { getLoggedInUser } from '@/features/auth/actions';
 import { SignUpCard } from '@/features/auth/components/sign-up-card';
+import { redirect } from 'next/navigation';
 import React from 'react';
 
-export default function SignUpPage() {
+export default async function SignUpPage() {
+  const user = await getLoggedInUser();
+
+  if (user) redirect('/');
+
   return <SignUpCard />;
 }
