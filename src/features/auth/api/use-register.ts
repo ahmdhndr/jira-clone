@@ -15,7 +15,13 @@ export const useRegister = () => {
   const mutation = useMutation<ResponseType, Error, RequestType>({
     mutationFn: async ({ json }) => {
       const response = await client.api.auth.register.$post({ json });
-      return await response.json();
+      const result = await response.json();
+
+      if (response.status !== 200) {
+        throw new Error(result.message);
+      }
+
+      return result;
     },
     onSuccess: () => {
       router.refresh();
@@ -23,8 +29,7 @@ export const useRegister = () => {
       queryClient.invalidateQueries({ queryKey: ['currentUser'] });
     },
     onError: (error) => {
-      console.log(error);
-      toast.error('Failed to register!');
+      toast.error(error.message);
     },
   });
 

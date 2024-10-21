@@ -21,7 +21,16 @@ export default function RootLayout({
     <html lang='en'>
       <body className={cn(inter.className, 'antialiased min-h-screen')}>
         <QueryProvider>
-          <Toaster />
+          <Toaster
+            toastOptions={{
+              classNames: {
+                error: 'border-transparent bg-red-400',
+                success: 'border-transparent bg-green-400',
+                warning: 'border-transparent bg-yellow-400',
+                info: 'border-transparent bg-blue-400',
+              },
+            }}
+          />
           {children}
         </QueryProvider>
       </body>

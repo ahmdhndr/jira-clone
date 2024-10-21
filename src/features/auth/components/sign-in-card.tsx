@@ -89,6 +89,7 @@ export const SignInCard = () => {
                         />
                       </FormControl>
                       <div
+                        role='none'
                         onClick={handleShowPassword}
                         className='absolute right-2 top-[12px] text-neutral-500 cursor-pointer'
                       >
