@@ -37,7 +37,7 @@ const app = new Hono()
       if (error instanceof AppwriteException) {
         return c.json(
           {
-            status: 'error',
+            status: 'failed',
             message: error.message,
             data: null,
           },
@@ -80,20 +80,20 @@ const app = new Hono()
       });
     } catch (error) {
       if (error instanceof AppwriteException) {
-        console.log(error.type);
         if (error.type === 'user_already_exists') {
           return c.json<{ status: string; message: string; data: null }>(
             {
-              status: 'error',
+              status: 'failed',
               message: 'Email is already taken.',
               data: null,
             },
             error.code as StatusCode
           );
         }
+
         return c.json(
           {
-            status: 'error',
+            status: 'failed',
             message: error.message,
             data: null,
           },

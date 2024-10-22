@@ -31,7 +31,7 @@ export const sessionMiddleware = createMiddleware<Context>(async (c, next) => {
   const session = getCookie(c, AUTH_COOKIE);
   if (!session) {
     return c.json(
-      { status: 'error', message: 'Unauthorized', data: null },
+      { status: 'failed', message: 'Unauthorized', data: null },
       401
     );
   }
