@@ -1,6 +1,6 @@
 'use client';
 
-import { DottedSeparator } from '@/components/dotted-separator';
+import DottedSeparator from '@/components/dotted-separator';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {

@@ -1,16 +1,20 @@
-import { getLoggedInUser } from '@/features/auth/actions';
-import { UserButton } from '@/features/auth/components/user-button';
-import CreateWorkspaceForm from '@/features/workspaces/components/create-workspace-form';
+import { getLoggedInUser } from '@/features/auth/queries';
+import { getWorkspaces } from '@/features/workspaces/queries';
 import { redirect } from 'next/navigation';
+import { Models } from 'node-appwrite';
 
 export default async function Home() {
   const user = await getLoggedInUser();
-
   if (!user) redirect('/sign-in');
 
-  return (
-    <div className='bg-neutral-500 p-4 h-full'>
-      <CreateWorkspaceForm />
-    </div>
-  );
+  const workspaces = await getWorkspaces();
+  if (workspaces.total === 0) {
+    redirect('/workspaces/create');
+  } else {
+    redirect(
+      `/workspaces/${
+        (workspaces as Models.DocumentList<Models.Document>).documents[0].$id
+      }`
+    );
+  }
 }

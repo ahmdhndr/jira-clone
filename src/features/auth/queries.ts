@@ -12,7 +12,7 @@ export const getLoggedInUser = async () => {
 
     const session = cookies().get(AUTH_COOKIE);
 
-    if (!session || !session.value) return null;
+    if (!session) return null;
 
     client.setSession(session.value);
     const account = new Account(client);

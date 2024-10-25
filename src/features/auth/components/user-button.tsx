@@ -11,7 +11,7 @@ import {
 import { LoaderCircle, LogOut } from 'lucide-react';
 import { useCurrentUser } from '../api/use-current-user';
 
-import { DottedSeparator } from '@/components/dotted-separator';
+import DottedSeparator from '@/components/dotted-separator';
 import { useLogout } from '../api/use-logout';
 
 export const UserButton = () => {
